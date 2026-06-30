@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 
 // Import Middlewares and Routes
 const authRoutes = require('./routes/auth.routes');
+const dashboardRoutes = require('./routes/dashboard.routes'); // ADD THIS
 const errorHandler = require('./middleware/errorHandler');
 const notFound = require('./middleware/notFound');
 
@@ -14,8 +15,8 @@ const app = express();
 // Security & Middleware
 app.use(helmet());
 app.use(cors({ 
-    origin: process.env.CLIENT_URL, 
-    credentials: true // Required for HttpOnly Cookies
+    origin: 'http://localhost:5173', // Hardcode this temporarily
+    credentials: true
 }));
 app.use(morgan('dev'));
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use(cookieParser());
 // Base API Routes
 app.get('/api/v1/health', (req, res) => res.status(200).json({ success: true, message: 'NexusLogix API is running' }));
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes); // ADD THIS
 
 // 404 Handler
 app.use(notFound);

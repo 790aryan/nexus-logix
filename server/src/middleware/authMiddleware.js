@@ -1,16 +1,32 @@
-const jwt = require('jsonwebtoken');
-const AppError = require('../errors/AppError');
+const jwt = require("jsonwebtoken");
+const AppError = require("../errors/AppError");
 
 const authMiddleware = (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) return next(new AppError('Unauthorized', 401));
-
     try {
+        // Get token from HttpOnly cookie
+        const token = req.cookies.token;
+
+        if (!token) {
+            return next(
+                new AppError("Authentication required. Please login.", 401)
+            );
+        }
+
+        // Verify JWT
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+
+        // Attach user info to request
+        req.user = {
+            id: decoded.id,
+            role: decoded.role,
+        };
+
         next();
-    } catch (err) {
-        next(new AppError('Invalid token', 401));
+    } catch (error) {
+        return next(
+            new AppError("Invalid or expired token.", 401)
+        );
     }
 };
+
 module.exports = authMiddleware;
