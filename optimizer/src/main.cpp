@@ -163,6 +163,12 @@ if(algo)
 
     AlgorithmInput input;
 
+    input.sourceNode =
+        warehouses.front().id;
+
+    input.destinationNode =
+        warehouses.back().id;
+
     auto result =
         benchmark.run(
             *algo,
@@ -170,11 +176,39 @@ if(algo)
         );
 
     std::cout
-        << "\n"
+        << "\nRoute Optimization\n";
+    std::cout
+        << "------------------\n";
+
+    std::cout
         << result.message
         << "\n";
-}
 
+    if(result.success)
+    {
+        std::cout
+            << "Distance : "
+            << result.shortestDistance
+            << " km\n";
+
+        std::cout
+            << "Path : ";
+
+        for(int node :
+            result.shortestPath)
+        {
+            std::cout
+                << node
+                << " ";
+        }
+
+        std::cout << "\n";
+        std::cout
+            << "Execution Time : "
+            << result.metrics.executionTimeMs
+            << " ms\n";
+    }
+}
     engine.shutdown();
 
     return 0;

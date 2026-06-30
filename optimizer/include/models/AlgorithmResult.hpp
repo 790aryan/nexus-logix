@@ -16,4 +16,8 @@ struct AlgorithmResult
     AlgorithmMetrics metrics;
 
     std::vector<int> output;
+
+    double shortestDistance = 0.0;
+
+    std::vector<int> shortestPath;
 };
