@@ -1,6 +1,8 @@
 #include "simulator/RoadGenerator.hpp"
 
 #include <cmath>
+#include <random>
+#include <set>
 
 std::vector<Road>
 RoadGenerator::generateRoads(
@@ -9,48 +11,97 @@ RoadGenerator::generateRoads(
 {
     std::vector<Road> roads;
 
-    for (size_t i = 0; i < warehouses.size(); ++i)
+    if (warehouses.size() < 2)
+        return roads;
+
+    auto createRoad =
+        [&](int fromIndex, int toIndex)
     {
-        for (size_t j = i + 1; j < warehouses.size(); ++j)
-        {
-            double dx =
-                warehouses[i].latitude -
-                warehouses[j].latitude;
+        double dx =
+            warehouses[fromIndex].latitude -
+            warehouses[toIndex].latitude;
 
-            double dy =
-                warehouses[i].longitude -
-                warehouses[j].longitude;
+        double dy =
+            warehouses[fromIndex].longitude -
+            warehouses[toIndex].longitude;
 
-            double distance =
-                std::sqrt(dx * dx + dy * dy) * 111.0;
+        double distance =
+            std::sqrt(dx * dx + dy * dy) * 111.0;
 
-            Road road;
+        Road road;
 
-            road.sourceWarehouseId =
-                warehouses[i].id;
+        road.sourceWarehouseId =
+            warehouses[fromIndex].id;
 
-            road.destinationWarehouseId =
-                warehouses[j].id;
+        road.destinationWarehouseId =
+            warehouses[toIndex].id;
 
-            road.distanceKm = distance;
+        road.distanceKm = distance;
 
-            road.travelTimeMinutes =
-                distance;
+        road.travelTimeMinutes =
+            distance;
 
-            road.trafficFactor = 1.0;
+        road.trafficFactor = 1.0;
 
-            roads.push_back(road);
+        roads.push_back(road);
 
-            Road reverse = road;
+        Road reverse = road;
 
-            reverse.sourceWarehouseId =
-                road.destinationWarehouseId;
+        reverse.sourceWarehouseId =
+            road.destinationWarehouseId;
 
-            reverse.destinationWarehouseId =
-                road.sourceWarehouseId;
+        reverse.destinationWarehouseId =
+            road.sourceWarehouseId;
 
-            roads.push_back(reverse);
-        }
+        roads.push_back(reverse);
+    };
+
+    //---------------------------------------------------
+    // Backbone chain
+    //---------------------------------------------------
+
+    std::set<std::pair<int,int>> used;
+
+    for(size_t i = 0; i + 1 < warehouses.size(); ++i)
+    {
+        createRoad(i, i + 1);
+
+        used.insert({(int)i, (int)i + 1});
+        used.insert({(int)i + 1, (int)i});
+    }
+
+    //---------------------------------------------------
+    // Random shortcut roads
+    //---------------------------------------------------
+
+    std::mt19937 rng(std::random_device{}());
+
+    std::uniform_int_distribution<int>
+        node(0, (int)warehouses.size() - 1);
+
+    int extraRoads =
+        std::max(
+            2,
+            (int)warehouses.size() / 2
+        );
+
+    while(extraRoads > 0)
+    {
+        int u = node(rng);
+        int v = node(rng);
+
+        if(u == v)
+            continue;
+
+        if(used.count({u,v}))
+            continue;
+
+        createRoad(u,v);
+
+        used.insert({u,v});
+        used.insert({v,u});
+
+        extraRoads--;
     }
 
     return roads;

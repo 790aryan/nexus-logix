@@ -9,6 +9,7 @@
 #include "simulator/RoadGenerator.hpp"
 #include "graph/WarehouseGraph.hpp"
 #include "algorithms/graph/DijkstraAlgorithm.hpp"
+#include "testing/GraphTestBuilder.hpp"
 int main()
 {
     std::cout << "=====================================\n";
@@ -116,20 +117,13 @@ for (const auto& warehouse : warehouses)
         << warehouse.currentInventory
         << '\n';
 }
-WarehouseGraph graph;
+GraphTestBuilder builder;
 
-RoadGenerator roadGenerator;
+WarehouseGraph graph =
+    builder.buildTestGraph();
 
-auto roads =
-    roadGenerator.generateRoads(
-        warehouses
-    );
-
-
-for (const auto& road : roads)
-{
-    graph.addRoad(road);
-}
+std::cout
+    << "\nTest Graph Loaded\n";
 
 std::cout
     << "\nRoad Network\n";
@@ -137,9 +131,7 @@ std::cout
     << "------------\n";
 
 std::cout
-    << "Total Roads: "
-    << roads.size()
-    << "\n";
+    << "Total Roads: 8\n";
 
 DijkstraAlgorithm dijkstra;
 
@@ -163,11 +155,8 @@ if(algo)
 
     AlgorithmInput input;
 
-    input.sourceNode =
-        warehouses.front().id;
-
-    input.destinationNode =
-        warehouses.back().id;
+    input.sourceNode = 1;
+    input.destinationNode = 4;
 
     auto result =
         benchmark.run(

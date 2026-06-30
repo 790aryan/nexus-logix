@@ -8,8 +8,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(include)
 
+# This will automatically include all .cpp files in src/ and its subdirectories
 file(GLOB_RECURSE SOURCES
-    src/*.cpp
+    "src/*.cpp"
 )
+
+# If src/testing/GraphTestBuilder.cpp is inside src/, 
+# GLOB_RECURSE will already pick it up. 
+# If you want to explicitly add it to ensure it's included:
+list(APPEND SOURCES "src/testing/GraphTestBuilder.cpp")
 
 add_executable(optiflow-engine ${SOURCES})
