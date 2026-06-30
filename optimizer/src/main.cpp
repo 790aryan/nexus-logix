@@ -6,7 +6,8 @@
 #include "benchmark/BenchmarkRunner.hpp"
 #include "simulator/InventoryGenerator.hpp"
 #include "simulator/WarehouseGenerator.hpp"
-
+#include "simulator/RoadGenerator.hpp"
+#include "graph/WarehouseGraph.hpp"
 int main()
 {
     std::cout << "=====================================\n";
@@ -114,6 +115,34 @@ for (const auto& warehouse : warehouses)
         << warehouse.currentInventory
         << '\n';
 }
+
+
+RoadGenerator roadGenerator;
+
+auto roads =
+    roadGenerator.generateRoads(
+        warehouses
+    );
+
+WarehouseGraph graph;
+
+for (const auto& road : roads)
+{
+    graph.addRoad(road);
+}
+
+std::cout
+    << "\nRoad Network\n";
+std::cout
+    << "------------\n";
+
+std::cout
+    << "Total Roads: "
+    << roads.size()
+    << "\n";
+
+
+
     engine.shutdown();
 
     return 0;
