@@ -5,6 +5,7 @@
 #include "algorithms/search/BinarySearchAlgorithm.hpp"
 #include "benchmark/BenchmarkRunner.hpp"
 #include "simulator/InventoryGenerator.hpp"
+#include "simulator/WarehouseGenerator.hpp"
 
 int main()
 {
@@ -89,6 +90,28 @@ for(const auto& product : inventory)
         << product.category
         << " | Qty: "
         << product.quantity
+        << '\n';
+}
+
+
+WarehouseGenerator warehouseGenerator;
+
+auto warehouses =
+    warehouseGenerator.generateWarehouses(5);
+
+std::cout << "\nGenerated Warehouses\n";
+std::cout << "--------------------\n";
+
+for (const auto& warehouse : warehouses)
+{
+    std::cout
+        << warehouse.code
+        << " | "
+        << warehouse.city
+        << " | Capacity: "
+        << warehouse.capacity
+        << " | Inventory: "
+        << warehouse.currentInventory
         << '\n';
 }
     engine.shutdown();
