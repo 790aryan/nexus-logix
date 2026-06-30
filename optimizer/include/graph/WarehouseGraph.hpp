@@ -1,6 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+
+#include "simulator/Warehouse.hpp"
 #include <vector>
 
 #include "graph/Road.hpp"
@@ -16,9 +18,6 @@ public:
     ) const;
 
 private:
-
-    std::unordered_map<
-        int,
-        std::vector<Road>
-    > adjacencyList;
+    std::unordered_map<int,std::vector<Road>> adjacencyList;
+    std::unordered_map<int, Warehouse> warehouses;
 };

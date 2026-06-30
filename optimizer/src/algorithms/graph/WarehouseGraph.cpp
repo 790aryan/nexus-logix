@@ -26,3 +26,4 @@ WarehouseGraph::getNeighbors(
 
     return iterator->second;
 }
+

@@ -8,6 +8,7 @@
 #include "simulator/WarehouseGenerator.hpp"
 #include "simulator/RoadGenerator.hpp"
 #include "graph/WarehouseGraph.hpp"
+#include "algorithms/graph/DijkstraAlgorithm.hpp"
 int main()
 {
     std::cout << "=====================================\n";
@@ -115,7 +116,7 @@ for (const auto& warehouse : warehouses)
         << warehouse.currentInventory
         << '\n';
 }
-
+WarehouseGraph graph;
 
 RoadGenerator roadGenerator;
 
@@ -124,7 +125,6 @@ auto roads =
         warehouses
     );
 
-WarehouseGraph graph;
 
 for (const auto& road : roads)
 {
@@ -141,7 +141,39 @@ std::cout
     << roads.size()
     << "\n";
 
+DijkstraAlgorithm dijkstra;
 
+dijkstra.setGraph(graph);
+
+engine.getRegistry().registerAlgorithm(
+    std::make_shared<DijkstraAlgorithm>(dijkstra)
+);
+
+engine.getRegistry().listAlgorithms();
+
+
+auto algo =
+engine.getRegistry().getAlgorithm(
+    "Dijkstra"
+);
+
+if(algo)
+{
+    BenchmarkRunner benchmark;
+
+    AlgorithmInput input;
+
+    auto result =
+        benchmark.run(
+            *algo,
+            input
+        );
+
+    std::cout
+        << "\n"
+        << result.message
+        << "\n";
+}
 
     engine.shutdown();
 
