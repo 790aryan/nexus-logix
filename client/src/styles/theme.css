@@ -1,0 +1,50 @@
+/* ==========================================================
+   OptiFlow Theme Tokens
+   ========================================================== */
+
+@theme {
+    /* ==========================
+       Colors
+    ========================== */
+
+    --color-background: #494D5F;
+    --color-surface: #5B6076;
+
+    --color-primary: #8458B3;
+    --color-primary-hover: #7344AA;
+
+    --color-accent: #A0D2EB;
+    --color-secondary: #D0BDF4;
+
+    --color-text: #E5EAF5;
+    --color-text-muted: #D0BDF4;
+
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+
+    --color-border: #70748A;
+
+    /* ==========================
+       Border Radius
+    ========================== */
+
+    --radius-xs: 8px;
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+
+    /* ==========================
+       Shadows
+    ========================== */
+
+    --shadow-card: 0 12px 30px rgba(0,0,0,.25);
+    --shadow-button: 0 8px 20px rgba(132,88,179,.35);
+
+    /* ==========================
+       Transition
+    ========================== */
+
+    --default-transition: 250ms ease;
+}
