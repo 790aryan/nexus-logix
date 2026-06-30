@@ -26,4 +26,8 @@ WarehouseGraph::getNeighbors(
 
     return iterator->second;
 }
-
+const std::unordered_map<int, std::vector<Road>>&
+WarehouseGraph::getAdjacencyList() const
+{
+    return adjacencyList;
+}

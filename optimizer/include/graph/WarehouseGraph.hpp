@@ -1,8 +1,6 @@
 #pragma once
 
 #include <unordered_map>
-
-#include "simulator/Warehouse.hpp"
 #include <vector>
 
 #include "graph/Road.hpp"
@@ -10,14 +8,13 @@
 class WarehouseGraph
 {
 public:
-
     void addRoad(const Road& road);
 
-    const std::vector<Road>& getNeighbors(
-        int warehouseId
-    ) const;
+    const std::vector<Road>& getNeighbors(int warehouseId) const;
+
+    const std::unordered_map<int, std::vector<Road>>&
+    getAdjacencyList() const;
 
 private:
-    std::unordered_map<int,std::vector<Road>> adjacencyList;
-    std::unordered_map<int, Warehouse> warehouses;
+    std::unordered_map<int, std::vector<Road>> adjacencyList;
 };

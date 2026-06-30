@@ -11,4 +11,9 @@ struct Road
     double travelTimeMinutes;
 
     double trafficFactor;
+
+    double weight() const
+    {
+        return distanceKm * trafficFactor;
+    }
 };
