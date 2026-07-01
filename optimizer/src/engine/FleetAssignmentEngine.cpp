@@ -7,26 +7,39 @@ int FleetAssignmentEngine::assignOrders(
 {
     int assigned = 0;
 
-    size_t vehicleIndex = 0;
-
     for(auto& order : orders)
     {
-        while(
-            vehicleIndex < fleet.size() &&
-            !fleet[vehicleIndex].available
-        )
+        for(auto& vehicle : fleet)
         {
-            vehicleIndex++;
-        }
+            if(!vehicle.available)
+            {
+                continue;
+            }
 
-        if(vehicleIndex >= fleet.size())
-        {
+            if(vehicle.remainingCapacityKg <
+               order.weight)
+            {
+                continue;
+            }
+
+            vehicle.remainingCapacityKg -=
+                order.weight;
+
+            vehicle.assignedOrders++;
+
+            vehicle.available = false;
+
+            order.assigned = true;
+
+            order.assignedVehicleId =
+                vehicle.id;
+
+            order.status = "Assigned";
+
+            assigned++;
+
             break;
         }
-
-        fleet[vehicleIndex].available = false;
-
-        assigned++;
     }
 
     return assigned;

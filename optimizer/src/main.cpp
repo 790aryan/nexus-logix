@@ -15,6 +15,7 @@
 #include "engine/RouteOptimizationEngine.hpp"
 #include "simulator/OrderGenerator.hpp"
 #include "simulator/FleetGenerator.hpp"
+#include "engine/FleetAssignmentEngine.hpp"
 
 int main()
 {
@@ -124,7 +125,33 @@ auto fleet =
         warehouses
     );
 
+FleetAssignmentEngine assignmentEngine;
 
+int assignedOrders =
+    assignmentEngine.assignOrders(
+        orders,
+        fleet
+    );
+
+std::cout
+    << "\nFleet Assignment\n";
+std::cout
+    << "----------------\n";
+
+std::cout
+    << "Orders       : "
+    << orders.size()
+    << "\n";
+
+std::cout
+    << "Assigned     : "
+    << assignedOrders
+    << "\n";
+
+std::cout
+    << "Pending      : "
+    << orders.size() - assignedOrders
+    << "\n";
 std::cout
     << "\n=====================================\n";
 std::cout

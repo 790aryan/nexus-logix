@@ -15,4 +15,9 @@ struct Vehicle
     bool available = true;
 
     double currentLoadKg = 0.0;
+
+    int assignedOrders = 0;
+
+    double remainingCapacityKg = 0.0;
+    
 };

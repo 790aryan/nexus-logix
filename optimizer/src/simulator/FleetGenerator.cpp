@@ -52,6 +52,9 @@ FleetGenerator::generateFleet(
         vehicle.available = true;
 
         vehicle.currentLoadKg = 0.0;
+        
+        vehicle.remainingCapacityKg =
+        vehicle.capacityKg;
 
         fleet.push_back(vehicle);
     }

@@ -15,6 +15,9 @@ struct Order
     int quantity = 0;
 
     double weight = 0.0;
+    
+    int assignedVehicleId = -1;
 
+    bool assigned = false;
     std::string status;
 };
