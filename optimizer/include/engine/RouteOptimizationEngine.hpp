@@ -2,10 +2,9 @@
 
 #include <memory>
 
+#include "engine/RoutingStrategy.hpp"
 #include "graph/WarehouseGraph.hpp"
 #include "models/AlgorithmResult.hpp"
-
-class DijkstraAlgorithm;
 
 class RouteOptimizationEngine
 {
@@ -15,6 +14,10 @@ public:
         const WarehouseGraph& graph
     );
 
+    void setStrategy(
+        std::unique_ptr<RoutingStrategy> strategy
+    );
+
     AlgorithmResult findShortestRoute(
         int sourceNode,
         int destinationNode
@@ -22,5 +25,5 @@ public:
 
 private:
 
-    std::shared_ptr<DijkstraAlgorithm> dijkstra;
+    std::unique_ptr<RoutingStrategy> strategy;
 };

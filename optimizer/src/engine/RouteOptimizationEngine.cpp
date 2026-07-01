@@ -1,19 +1,22 @@
 #include "engine/RouteOptimizationEngine.hpp"
 
-#include <memory>
-
-#include "algorithms/graph/DijkstraAlgorithm.hpp"
-#include "benchmark/BenchmarkRunner.hpp"
-#include "models/AlgorithmInput.hpp"
+#include "engine/DijkstraStrategy.hpp"
 
 RouteOptimizationEngine::RouteOptimizationEngine(
     const WarehouseGraph& graph
 )
 {
-    dijkstra =
-        std::make_shared<DijkstraAlgorithm>();
+    strategy =
+        std::make_unique<DijkstraStrategy>(
+            graph
+        );
+}
 
-    dijkstra->setGraph(graph);
+void RouteOptimizationEngine::setStrategy(
+    std::unique_ptr<RoutingStrategy> newStrategy
+)
+{
+    strategy = std::move(newStrategy);
 }
 
 AlgorithmResult
@@ -22,15 +25,8 @@ RouteOptimizationEngine::findShortestRoute(
     int destinationNode
 )
 {
-    AlgorithmInput input;
-
-    input.sourceNode = sourceNode;
-    input.destinationNode = destinationNode;
-
-    BenchmarkRunner benchmark;
-
-    return benchmark.run(
-        *dijkstra,
-        input
+    return strategy->findRoute(
+        sourceNode,
+        destinationNode
     );
 }
