@@ -10,6 +10,7 @@
 #include "graph/WarehouseGraph.hpp"
 #include "algorithms/graph/DijkstraAlgorithm.hpp"
 #include "testing/GraphTestBuilder.hpp"
+#include "algorithms/trees/SegmentTree.hpp"
 int main()
 {
     std::cout << "=====================================\n";
@@ -198,6 +199,84 @@ if(algo)
             << " ms\n";
     }
 }
+
+std::cout
+    << "\n=====================================\n";
+std::cout
+    << "      Inventory Analytics\n";
+std::cout
+    << "=====================================\n";
+
+std::vector<int> inventoryQuantities;
+
+for(const auto& product : inventory)
+{
+    inventoryQuantities.push_back(
+        product.quantity
+    );
+}
+
+SegmentTree segmentTree(
+    inventoryQuantities
+);
+
+std::cout
+    << "\nInventory Quantities\n";
+std::cout
+    << "--------------------\n";
+
+for(int quantity : inventoryQuantities)
+{
+    std::cout
+        << quantity
+        << " ";
+}
+
+std::cout << "\n";
+
+int left = 1;
+int right = 3;
+
+std::cout
+    << "\nRange Query ["
+    << left
+    << ", "
+    << right
+    << "]\n";
+
+std::cout
+    << "Inventory Sum : "
+    << segmentTree.query(
+        left,
+        right
+    )
+    << "\n";
+
+std::cout
+    << "\nUpdating index 2...\n";
+
+segmentTree.update(
+    2,
+    200
+);
+
+std::cout
+    << "New Value : 200\n";
+
+std::cout
+    << "\nRange Query ["
+    << left
+    << ", "
+    << right
+    << "]\n";
+
+std::cout
+    << "Inventory Sum : "
+    << segmentTree.query(
+        left,
+        right
+    )
+    << "\n";
     engine.shutdown();
 
     return 0;

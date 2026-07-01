@@ -17,5 +17,5 @@ file(GLOB_RECURSE SOURCES
 # GLOB_RECURSE will already pick it up. 
 # If you want to explicitly add it to ensure it's included:
 list(APPEND SOURCES "src/testing/GraphTestBuilder.cpp")
-
+list(APPEND SOURCES "src/algorithms/trees/SegmentTree.cpp")
 add_executable(optiflow-engine ${SOURCES})
