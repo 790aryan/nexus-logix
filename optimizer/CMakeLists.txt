@@ -19,5 +19,5 @@ file(GLOB_RECURSE SOURCES
 list(APPEND SOURCES "src/testing/GraphTestBuilder.cpp")
 list(APPEND SOURCES "src/algorithms/trees/SegmentTree.cpp")
 list(APPEND SOURCES "src/engine/InventoryAnalyticsEngine.cpp")
-
+list(APPEND SOURCES "src/engine/RouteOptimizationEngine.cpp")
 add_executable(optiflow-engine ${SOURCES})

@@ -12,6 +12,7 @@
 #include "testing/GraphTestBuilder.hpp"
 #include "algorithms/trees/SegmentTree.hpp"
 #include "engine/InventoryAnalyticsEngine.hpp"
+#include "engine/RouteOptimizationEngine.hpp"
 int main()
 {
     std::cout << "=====================================\n";
@@ -135,70 +136,48 @@ std::cout
 std::cout
     << "Total Roads: 8\n";
 
-DijkstraAlgorithm dijkstra;
+std::cout
+    << "\nRoute Optimization\n";
+std::cout
+    << "------------------\n";
 
-dijkstra.setGraph(graph);
+RouteOptimizationEngine
+    routeEngine(graph);
 
-engine.getRegistry().registerAlgorithm(
-    std::make_shared<DijkstraAlgorithm>(dijkstra)
-);
+AlgorithmResult route =
+    routeEngine.findShortestRoute(
+        1,
+        4
+    );
 
-engine.getRegistry().listAlgorithms();
+std::cout
+    << route.message
+    << "\n";
 
-
-auto algo =
-engine.getRegistry().getAlgorithm(
-    "Dijkstra"
-);
-
-if(algo)
+if(route.success)
 {
-    BenchmarkRunner benchmark;
-
-    AlgorithmInput input;
-
-    input.sourceNode = 1;
-    input.destinationNode = 4;
-
-    auto result =
-        benchmark.run(
-            *algo,
-            input
-        );
+    std::cout
+        << "Distance : "
+        << route.shortestDistance
+        << " km\n";
 
     std::cout
-        << "\nRoute Optimization\n";
-    std::cout
-        << "------------------\n";
+        << "Path : ";
 
-    std::cout
-        << result.message
-        << "\n";
-
-    if(result.success)
+    for(int node :
+        route.shortestPath)
     {
         std::cout
-            << "Distance : "
-            << result.shortestDistance
-            << " km\n";
-
-        std::cout
-            << "Path : ";
-
-        for(int node :
-            result.shortestPath)
-        {
-            std::cout
-                << node
-                << " ";
-        }
-
-        std::cout << "\n";
-        std::cout
-            << "Execution Time : "
-            << result.metrics.executionTimeMs
-            << " ms\n";
+            << node
+            << " ";
     }
+
+    std::cout << "\n";
+
+    std::cout
+        << "Execution Time : "
+        << route.metrics.executionTimeMs
+        << " ms\n";
 }
 
 
