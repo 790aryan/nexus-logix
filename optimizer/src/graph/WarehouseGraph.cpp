@@ -31,3 +31,24 @@ WarehouseGraph::getAdjacencyList() const
 {
     return adjacencyList;
 }
+void WarehouseGraph::addWarehouse(
+    const Warehouse& warehouse
+)
+{
+    warehouses[warehouse.id] = warehouse;
+}
+
+const Warehouse*
+WarehouseGraph::getWarehouse(
+    int warehouseId
+) const
+{
+    auto it = warehouses.find(warehouseId);
+
+    if(it == warehouses.end())
+    {
+        return nullptr;
+    }
+
+    return &it->second;
+}

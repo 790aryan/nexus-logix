@@ -124,7 +124,12 @@ GraphTestBuilder builder;
 
 WarehouseGraph graph =
     builder.buildTestGraph();
-
+for(const auto& warehouse : warehouses)
+{
+    graph.addWarehouse(
+        warehouse
+    );
+}
 std::cout
     << "\nTest Graph Loaded\n";
 
