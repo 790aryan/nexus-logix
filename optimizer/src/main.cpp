@@ -13,6 +13,9 @@
 #include "algorithms/trees/SegmentTree.hpp"
 #include "engine/InventoryAnalyticsEngine.hpp"
 #include "engine/RouteOptimizationEngine.hpp"
+#include "simulator/OrderGenerator.hpp"
+#include "simulator/FleetGenerator.hpp"
+
 int main()
 {
     std::cout << "=====================================\n";
@@ -81,45 +84,73 @@ int main()
     }
 InventoryGenerator generator;
 
-auto inventory = generator.generateInventory(5);
+const int PRODUCT_COUNT = 100000;
 
-std::cout << "\nGenerated Inventory\n";
-std::cout << "-------------------\n";
+auto inventory =
+    generator.generateInventory(
+        PRODUCT_COUNT
+    );
 
-for(const auto& product : inventory)
-{
-    std::cout
-        << product.sku
-        << " | "
-        << product.name
-        << " | "
-        << product.category
-        << " | Qty: "
-        << product.quantity
-        << '\n';
-}
+
 
 
 WarehouseGenerator warehouseGenerator;
 
+const int WAREHOUSE_COUNT = 50;
+
 auto warehouses =
-    warehouseGenerator.generateWarehouses(5);
+    warehouseGenerator.generateWarehouses(
+        WAREHOUSE_COUNT
+    );
 
-std::cout << "\nGenerated Warehouses\n";
-std::cout << "--------------------\n";
+OrderGenerator orderGenerator;
 
-for (const auto& warehouse : warehouses)
-{
-    std::cout
-        << warehouse.code
-        << " | "
-        << warehouse.city
-        << " | Capacity: "
-        << warehouse.capacity
-        << " | Inventory: "
-        << warehouse.currentInventory
-        << '\n';
-}
+const int ORDER_COUNT = 10000;
+
+auto orders =
+    orderGenerator.generateOrders(
+        ORDER_COUNT,
+        warehouses,
+        inventory
+    );
+
+FleetGenerator fleetGenerator;
+
+const int VEHICLE_COUNT = 500;
+
+auto fleet =
+    fleetGenerator.generateFleet(
+        VEHICLE_COUNT,
+        warehouses
+    );
+
+
+std::cout
+    << "\n=====================================\n";
+std::cout
+    << "      Simulation Summary\n";
+std::cout
+    << "=====================================\n\n";
+
+std::cout
+    << "Products    : "
+    << inventory.size()
+    << "\n";
+
+std::cout
+    << "Warehouses  : "
+    << warehouses.size()
+    << "\n";
+
+std::cout
+    << "Orders      : "
+    << orders.size()
+    << "\n";
+
+std::cout
+    << "Vehicles    : "
+    << fleet.size()
+    << "\n";
 GraphTestBuilder builder;
 
 WarehouseGraph graph =
