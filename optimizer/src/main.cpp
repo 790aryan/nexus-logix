@@ -11,6 +11,7 @@
 #include "algorithms/graph/DijkstraAlgorithm.hpp"
 #include "testing/GraphTestBuilder.hpp"
 #include "algorithms/trees/SegmentTree.hpp"
+#include "engine/InventoryAnalyticsEngine.hpp"
 int main()
 {
     std::cout << "=====================================\n";
@@ -200,10 +201,12 @@ if(algo)
     }
 }
 
+
+
 std::cout
     << "\n=====================================\n";
 std::cout
-    << "      Inventory Analytics\n";
+    << "    Inventory Analytics Engine\n";
 std::cout
     << "=====================================\n";
 
@@ -216,66 +219,46 @@ for(const auto& product : inventory)
     );
 }
 
-SegmentTree segmentTree(
+InventoryAnalyticsEngine analytics(
     inventoryQuantities
 );
 
 std::cout
-    << "\nInventory Quantities\n";
-std::cout
-    << "--------------------\n";
-
-for(int quantity : inventoryQuantities)
-{
-    std::cout
-        << quantity
-        << " ";
-}
-
-std::cout << "\n";
-
-int left = 1;
-int right = 3;
-
-std::cout
-    << "\nRange Query ["
-    << left
-    << ", "
-    << right
-    << "]\n";
-
-std::cout
-    << "Inventory Sum : "
-    << segmentTree.query(
-        left,
-        right
-    )
+    << "\nTotal Inventory : "
+    << analytics.getTotalInventory()
     << "\n";
 
 std::cout
-    << "\nUpdating index 2...\n";
+    << "Inventory Range [1,3] : "
+    << analytics.getInventoryRange(1,3)
+    << "\n";
 
-segmentTree.update(
+std::cout
+    << "Average Inventory : "
+    << analytics.getAverageInventory()
+    << "\n";
+
+std::cout
+    << "Maximum Inventory : "
+    << analytics.getMaximumInventory()
+    << "\n";
+
+std::cout
+    << "Minimum Inventory : "
+    << analytics.getMinimumInventory()
+    << "\n";
+
+std::cout
+    << "\nUpdating Inventory Index 2 -> 200\n";
+
+analytics.updateInventory(
     2,
     200
 );
 
 std::cout
-    << "New Value : 200\n";
-
-std::cout
-    << "\nRange Query ["
-    << left
-    << ", "
-    << right
-    << "]\n";
-
-std::cout
-    << "Inventory Sum : "
-    << segmentTree.query(
-        left,
-        right
-    )
+    << "Updated Range [1,3] : "
+    << analytics.getInventoryRange(1,3)
     << "\n";
     engine.shutdown();
 
